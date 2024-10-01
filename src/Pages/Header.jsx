@@ -1,31 +1,31 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-import {Loader, Notfound} from "../Service";
+import { Loader } from "../Service";
 
 const Header = () => {
   const {
     loginWithPopup,
-    loginWithRedirect,
     logout,
     isLoading,
     user,
     isAuthenticated,
   } = useAuth0();
 
-  const Login = () => {
+  const LoginWithPop = () => {
     console.log("Current User", user);
     return (
       <React.Fragment>
         <button
           className="bg-green-200 m-2 p-2 font-medium text-xl"
-          onClick={() => loginWithRedirect()}
+          onClick={() => loginWithPopup()}
         >
           Log In
         </button>
       </React.Fragment>
     );
   };
+
   const Logout = () => {
     return (
       <React.Fragment>
@@ -39,10 +39,6 @@ const Header = () => {
         </button>
       </React.Fragment>
     );
-  };
-  
-  const LoginWithPop = () =>{
-    alert(loginWithPopup());
   };
 
   if (isLoading) {
@@ -66,7 +62,7 @@ const Header = () => {
         {/* Section for Login/Signup */}
 
         <Link className="Link">
-          {isAuthenticated ? <Logout /> : <Login />}
+          {isAuthenticated ? <Logout /> : <LoginWithPop />}
         </Link>
       </div>
     </div>
