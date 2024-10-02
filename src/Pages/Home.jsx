@@ -1,8 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SearchComponent } from "../Service";
 import Modal from "./Modal";
-
 const Home = () => {
+  const intialState = {
+    title: "",
+    content: "",
+    category: "",
+    createdAt: Date.now(),
+  };
+  const [formData, setFormData] = useState(intialState);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -14,8 +20,15 @@ const Home = () => {
   };
 
   const handleSubmit = (data) => {
-    console.log("Submitted data:", data);
+    setFormData(data)
+    setIsModalOpen(false);
+    console.log(data);
+    
   };
+
+  useEffect(()=>{
+    localStorage.setItem("List",formData)
+  },[formData])
 
   return (
     <div className="h-screen">

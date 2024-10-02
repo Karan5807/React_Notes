@@ -69,7 +69,6 @@ export const SearchComponent = ({ onSearch }) => {
   );
 };
 
-
 export const SelectComponent = ({ options, onSelect }) => {
   const [selectedValue, setSelectedValue] = useState('');
 
