@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { SearchComponent } from "../Service";
+import Card from "./Card";
 import Modal from "./Modal";
 const Home = () => {
-  const intialState = {
-    title: "",
-    content: "",
-    category: "",
-    createdAt: Date.now(),
-  };
-  const [formData, setFormData] = useState(intialState);
+  const [Notes, setNotes] = useState(() => {
+    const savedTask = window.localStorage.getItem("List");
+    return savedTask ? JSON.parse(savedTask) : [];
+  });
+  const [isEditing, setIsEditing] = useState(false);
+  const [newContent, setNewContent] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -20,18 +20,24 @@ const Home = () => {
   };
 
   const handleSubmit = (data) => {
-    setFormData(data)
+    setNotes((prevNote) => [...prevNote, data]);
     setIsModalOpen(false);
-    console.log(data);
-    
   };
 
-  useEffect(()=>{
-    localStorage.setItem("List",formData)
-  },[formData])
+  const handleUpdate = (id,newContent) =>{
+    setIsModalOpen(true);
+    const updateNotes = Notes.map((data,idx)=>idx === id ? newContent:data);
+    console.log(updateNotes);
+    setNewContent(updateNotes)
+  }
+
+  useEffect(() => {
+    window.localStorage.setItem("List", JSON.stringify(Notes));
+    console.log(Notes);
+  }, [Notes]);
 
   return (
-    <div className="h-screen">
+    <div className="container">
       <SearchComponent />
       {/* Section for Button */}
       <div className="flex justify-center space-x-4 mt-10">
@@ -39,13 +45,13 @@ const Home = () => {
           All
         </button>
         <button className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
-          Home
+          Day
         </button>
         <button className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
-          Work
+          Week
         </button>
         <button className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600">
-          Personal
+          Month
         </button>
         <button
           className="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600"
@@ -61,6 +67,20 @@ const Home = () => {
           onClose={handleCloseModal}
           onSubmit={handleSubmit}
         />
+      </div>
+      {/* Section for Display Notes */}
+      <div className="flex flex-row flex-wrap">
+        {Notes.map((dt, idx) => (
+          <Card
+            key={idx}
+            title={dt.title}
+            content={dt.content}
+            category={dt.category}
+            complete={dt.complete}
+            time={dt.createdAt}
+            onUpdate={handleUpdate}
+          />
+        ))}
       </div>
     </div>
   );

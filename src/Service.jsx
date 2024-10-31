@@ -70,7 +70,7 @@ export const SearchComponent = ({ onSearch }) => {
 };
 
 export const SelectComponent = ({ options, onSelect }) => {
-  const [selectedValue, setSelectedValue] = useState('');
+  const [selectedValue, setSelectedValue] = useState("");
 
   const handleChange = (e) => {
     const value = e.target.value;

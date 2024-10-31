@@ -2,13 +2,16 @@ import React, { useEffect, useState } from "react";
 
 const Modal = ({ isOpen, onClose, onSubmit }) => {
   const intialState = {
+    id:Date.now(),
     title: "",
     content: "",
     category: "",
-    createdAt: Date.now(),
-  };
-  const [formData, setFormData] = useState(intialState);
-
+    complete:false,
+    createdAt: Date().substring(0,15),
+  };  
+  const [formData, setFormData] = useState(intialState); 
+  console.log(intialState);
+  
   if (!isOpen) return null;
 
   const handleChange = (e) => {
@@ -73,7 +76,6 @@ const Modal = ({ isOpen, onClose, onSubmit }) => {
               </select>
             </div>
           </div>
-
           <div className="flex justify-end space-x-4">
             <button
               type="button"
